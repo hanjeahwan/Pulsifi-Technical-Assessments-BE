@@ -1,0 +1,22 @@
+version: 0.1
+environment_variables:
+    plaintext:
+        S3_BUCKET: "https://s3.us-east-2.amazonaws.com"
+phases:
+    install:
+        commands:
+            - echo Installing source NPM dependencies...
+            - npm install
+    build:
+        commands:
+            - echo Build started on `date`
+            - npm prestart:prod
+    post_build:
+         commands:
+            - aws s3 cp dist s3://${S3_BUCKET}/nestjs-code-build --recursive
+            - echo Build completed on `date`
+artifacts:
+    files:
+        - '**/*'
+    base-directory: 'dist*'
+    discard-paths: yes
