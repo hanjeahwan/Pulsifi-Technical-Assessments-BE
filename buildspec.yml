@@ -1,7 +1,7 @@
 version: 0.1
 environment_variables:
     plaintext:
-        S3_BUCKET: "s3.us-east-2.amazonaws.com"
+        S3_BUCKET: "nestjs-code-build"
 phases:
     install:
         commands:
@@ -13,7 +13,7 @@ phases:
             - npm run prestart:prod
     post_build:
          commands:
-            - aws s3 sync dist s3://nestjs-code-build/ --recursive
+            - aws s3 cp dist s3://${S3_BUCKET} --recursive
             - echo Build completed on `date`
 artifacts:
     files:
