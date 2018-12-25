@@ -3,6 +3,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ValidationPipe } from './validation/validation.pipe';
 import { User } from './entity/user.entity';
+import { Pagination } from './../paginate';
 
 @Controller('users')
 export class UsersController {
@@ -13,8 +14,21 @@ export class UsersController {
   }
 
   @Get()
-  async findAll(@Query() query): Promise<User[]> {
-    return this.usersService.findAll(query);
+  async findAll(@Query() query): Promise<Pagination<User>> {
+    let options = {
+      limit: query.hasOwnProperty('limit') ? query.limit : 10,
+      skip: query.hasOwnProperty('skip') ? query.skip : 0,
+    }
+
+    if (query.hasOwnProperty('keywords') && query.keywords) {
+      Object.assign(options, { keywords: query.keywords })
+    }
+
+    if (query.hasOwnProperty('status') && query.status) {
+      Object.assign(options, { status: query.status })
+    }
+
+    return this.usersService.findAll(options);
   }
 
   @Get(':id')
