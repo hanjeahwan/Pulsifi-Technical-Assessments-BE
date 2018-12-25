@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
+import { User } from './users/entity/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 
@@ -8,7 +9,7 @@ import { Connection } from 'typeorm';
     TypeOrmModule.forRoot({  
         type: "postgres",
         url: process.env.DATABASE_URL || 'postgresql://postgres:fgacyc94@localhost:5432/nestjs',
-        entities: ["src/**/**.entity{.ts,.js}"],
+        entities: [User],
         synchronize: true
     }),
     UsersModule
