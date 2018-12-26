@@ -1,18 +1,20 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from './users/users.module';
-import { User } from './users/entity/user.entity';
+import { UserModule } from './user/user.module';
+import { UserEntity } from './user/entity/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
     imports: [
     TypeOrmModule.forRoot({  
         type: "postgres",
         url: process.env.DATABASE_URL || 'postgresql://postgres:fgacyc94@localhost:5432/nestjs',
-        entities: [User],
+        entities: [UserEntity],
         synchronize: true
     }),
-    UsersModule
+    UserModule,
+    AuthModule
     ],
     controllers: [],
     providers: [],
