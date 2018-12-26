@@ -1,8 +1,9 @@
-import { Controller, Post, Body, ValidationPipe, UnprocessableEntityException } from '@nestjs/common';
+import { Controller, Post, Body, UnprocessableEntityException } from '@nestjs/common';
 import { AuthModel } from './model/auth.model';
 import { AuthService } from './auth.service';
 import { UserModel } from '../user/model/user.model';
 import { UserService } from '../user/user.service';
+import { ValidationPipe } from '../validations/post-validation.pipe';
 
 @Controller('auth')
 export class AuthController {
@@ -16,10 +17,9 @@ export class AuthController {
     @Post('/register')
     async register(@Body(new ValidationPipe()) userModel: UserModel): Promise<string> {
         const emailExists = await this.userService.findByEmail(userModel.email);
-        console.log('email', emailExists);
 
         if (emailExists) {
-            throw new UnprocessableEntityException();
+            throw new UnprocessableEntityException('This email already exists.');
         }
 
         const user = await this.userService.create(userModel);

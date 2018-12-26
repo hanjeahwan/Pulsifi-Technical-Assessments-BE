@@ -4,6 +4,7 @@ import { UserEntity } from './user/entity/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { AuthModule } from './auth/auth.module';
+import { JobModule } from './job/job.module';
 
 @Module({
     imports: [
@@ -14,7 +15,8 @@ import { AuthModule } from './auth/auth.module';
         synchronize: true
     }),
     UserModule,
-    AuthModule
+    AuthModule,
+    JobModule
     ],
     controllers: [],
     providers: [],

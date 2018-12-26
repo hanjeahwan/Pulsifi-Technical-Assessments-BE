@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Query, Post, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
-import { ValidationPipe } from './validation/validation.pipe';
+import { ValidationPipe } from '../validations/post-validation.pipe';
 import { UserEntity } from './entity/user.entity';
 import { Pagination } from './../paginate';
 import { UserModel } from './model/user.model';
@@ -33,10 +33,10 @@ export class UserController {
     return this.userService.findAll(options);
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id) {
-    console.error('asd')
-    return this.userService.findOne(id);
-  }
+  // @Get(':id')
+  // async findOne(@Param('id') id) {
+  //   console.error('asd')
+  //   return this.userService.findOne(id);
+  // }
 
 }

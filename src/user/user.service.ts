@@ -17,7 +17,6 @@ export class UserService {
     ) {}
 
     async create(user:UserModel): Promise<UserEntity> {
-        console.error('as')
         user.password = await this.getHash(user.password);
         const result = await this.userRepository.save(
           this.userRepository.create(user),
@@ -51,9 +50,9 @@ export class UserService {
         });
     }
 
-    async findOne(id): Promise<UserEntity> {
-        return await this.userRepository.findOne(id)
-    }
+    // async findOne(id): Promise<UserEntity> {
+    //     return await this.userRepository.findOne(id)
+    // }
 
     async findById(id: number): Promise<UserEntity | null> {
       return await this.userRepository.findOneOrFail(id);
