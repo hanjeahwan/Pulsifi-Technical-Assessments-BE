@@ -2,6 +2,7 @@
 
 Deploy with [Heroku](https://www.heroku.com). API URL [https://nestjs-pulsifi.herokuapp.com](https://nestjs-pulsifi.herokuapp.com).
 * NestJS
+* PostgreSQL
 * TypeScript 
 * JavaScript (ES6, ES7, ES8)
 * JWT
