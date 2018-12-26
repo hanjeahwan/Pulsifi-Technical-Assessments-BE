@@ -1,11 +1,11 @@
 import { IsEmail, IsString, IsNotEmpty } from 'class-validator';
 
 export class AuthModel {
-  @IsEmail()
   @IsNotEmpty()
+  @IsEmail()
   email: string;
 
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   password: string;
 }

@@ -17,13 +17,14 @@ export class AuthController {
     @Post('/register')
     async register(@Body(new ValidationPipe()) userModel: UserModel): Promise<string> {
         const emailExists = await this.userService.findByEmail(userModel.email);
-
+        const password = userModel.password
+        
         if (emailExists) {
             throw new UnprocessableEntityException('This email already exists.');
         }
 
         const user = await this.userService.create(userModel);
 
-        return this.authService.authenticate(user);
+        return this.authService.authenticate({...user, password});
     }
 }

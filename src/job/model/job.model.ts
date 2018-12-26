@@ -1,14 +1,26 @@
-import { IsString, IsEmail, IsInt } from 'class-validator';
+import { IsString, IsInt, IsNotEmpty } from 'class-validator';
 
-export class UserModel {
+export class JobModel {
+    
+    readonly id: number;
 
-    @IsEmail()
-    email: string;
-
+    @IsNotEmpty()
     @IsString()
-    password: string;
+    title: string;
 
+    @IsNotEmpty()
     @IsString()
-    name: string;
+    breif: string;
 
+    @IsNotEmpty()
+    @IsString()
+    description: string;
+
+    @IsNotEmpty()
+    @IsString()
+    location: string;
+
+    @IsNotEmpty()
+    @IsInt()
+    status: number;
 }

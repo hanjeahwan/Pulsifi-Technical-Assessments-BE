@@ -19,11 +19,11 @@ export class AuthService {
   async authenticate(auth: AuthModel): Promise<string> {
     const user = await this.userService.findByEmailWithPassword(auth.email);
     if (!user) {
-      throw new BadRequestException();
+      throw new BadRequestException('Email not found.');
     }
 
-    if (!this.userService.compareHash(user.password, user.password)) {
-      throw new BadRequestException('Invalid credentials');
+    if (!await this.userService.compareHash(auth.password, user.password)) {
+      throw new BadRequestException('Invalid credentials.');
     }
 
     return this.jwtService.sign({ id: user.id });

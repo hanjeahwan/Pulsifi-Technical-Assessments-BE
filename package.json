@@ -29,6 +29,7 @@
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.1.7",
     "class-validator": "^0.8.1",
+    "cors": "^2.8.5",
     "lodash": "^4.17.11",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",

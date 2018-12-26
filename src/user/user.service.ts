@@ -14,12 +14,12 @@ export class UserService {
     constructor(
         @InjectRepository(UserEntity)
         private readonly userRepository: Repository<UserEntity>,
-    ) {}
+    ) { }
 
-    async create(user:UserModel): Promise<UserEntity> {
+    async create(user: UserModel): Promise<UserEntity> {
         user.password = await this.getHash(user.password);
         const result = await this.userRepository.save(
-          this.userRepository.create(user),
+            this.userRepository.create(user),
         );
         delete result.password;
         return result;
@@ -43,45 +43,35 @@ export class UserService {
             take: options.limit,
             skip: options.skip,
         })
-      
+
         return new Pagination<UserEntity>({
             results,
             total,
         });
     }
 
-    // async findOne(id): Promise<UserEntity> {
-    //     return await this.userRepository.findOne(id)
-    // }
-
     async findById(id: number): Promise<UserEntity | null> {
-      return await this.userRepository.findOneOrFail(id);
+        return await this.userRepository.findOneOrFail(id);
     }
-    
+
     async findByEmail(email: string): Promise<UserEntity | null> {
-      return await this.userRepository.findOne({
-        where: {
-          email,
-        },
-      });
+        return await this.userRepository.findOne({
+            where: {
+                email,
+            },
+        });
     }
 
     async findByEmailWithPassword(email: string): Promise<UserEntity> | null {
-      return await this.userRepository.findOne(
-        {
-          email,
-        },
-        {
-          select: ['email', 'password'],
-        },
-      );
+        return await this.userRepository.findOne({ email }, { select: ['email', 'password'] },
+        );
     }
 
     async getHash(password: string): Promise<string> {
-      return await bcrypt.hash(password, this.saltRounds);
+        return await bcrypt.hash(password, this.saltRounds);
     }
 
     async compareHash(password: string, hash: string): Promise<boolean> {
-      return await bcrypt.compare(password, hash);
+        return await bcrypt.compare(password, hash);
     }
 }
