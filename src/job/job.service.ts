@@ -38,24 +38,16 @@ export class JobService {
     }
 
     async findAll(options: PaginationOptionsInterface): Promise<Pagination<JobEntity>> {
-        const condations = () => {
-            let where: CondationsInterface = {}
-            if (options.keywords) {
-                where.title = Like(`%${options.keywords}%`)
-            }
-            if (options.status) {
-                where.status = Equal(options.status)
-            }
-            return where
+        const query = this.jobRepository.createQueryBuilder("job");
+
+        if (options.keywords) {
+            query.where("LOWER(job.title) LIKE LOWER(:title)", { title: `%${options.keywords}%` });
+        }
+        if (options.status) {
+            query.andWhere("job.status = :status", { status: options.status });
         }
 
-        const [results, total] = await this.jobRepository.findAndCount({
-            where: condations(),
-            order: { id: "DESC" },
-            take: options.limit,
-            skip: options.skip,
-        })
-
+        const [results, total] = await query.take(options.limit).skip(options.skip).getManyAndCount();
         return new Pagination<JobEntity>({
             results,
             total,
